@@ -1,8 +1,16 @@
-﻿using System;
+﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Text;
-using System.Threading.Tasks;
+using System;
 using QuickKartBusinessLayer;
 
 namespace Infosys.QuickKart
@@ -11,33 +19,49 @@ namespace Infosys.QuickKart
     {
         static void Main(string[] args)
         {
-            Product prodObj1 = new Product("P101", "Table", 1034.00, "Good Quality");
-            Product prodObj2 = new Product("P102", "Chair", 1134.00, "Good Quality");
-            Product prodObj3 = new Product("P103", "Books", 534.00, "Good Quality");
+            WishList wishList = new WishList();
 
-            Product[] productList = new Product[5];
+            Products pd1 = new Products();
+            Products pd2 = new Products();
+            Products pd3 = new Products();
+            pd1.ProductName = "Product-1";
+            pd2.ProductName = "Product-2";
+            pd3.ProductName = "Product-3";
+            pd1.Price = 2500;
+            pd2.Price = 1400;
+            pd3.Price = 850;
 
-            productList[0] = prodObj1;
-            productList[1] = prodObj2;
-            productList[2] = prodObj3;
-            try
-            {
-                for (int i = 0; i < productList.Length; i++)
-                {
-                    Console.WriteLine("ID = " + productList[i].ProductId +
-                                               "\tName = " + productList[i].ProductName +
-                                               "\tPrice = " + productList[i].Price +
-                                               "\tDescription = " + productList[i].Description);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("\nThere is some error in the program.");
-            }
-            finally
-            {
-                Console.WriteLine("\nEnd of the product list details.");
-            }
+            wishList.AddProduct(pd1);
+            wishList.AddProduct(pd2);
+            wishList.AddProduct(pd3);
+
+            Console.WriteLine("Total no of products in wishlist : " + wishList.GetTotalNumberOfRequest());
+
+            Console.WriteLine();
+            wishList.DisplayProductsInWishList();
+
+            Products pd4 = new Products();
+            pd4.ProductName = "Product-4";
+            pd4.Price = 3300;
+            wishList.InsertProduct(1, pd4);
+
+            Console.WriteLine();
+            wishList.DisplayProductsInWishList();
+
+            wishList.RemoveProduct(pd2);
+
+            Console.WriteLine();
+            wishList.DisplayProductsInWishList();
+
+            wishList.RemoveProductAtIndex(2);
+
+            Console.WriteLine();
+            wishList.DisplayProductsInWishList();
+
+            pd1.ProductName = "Test";
+
+            Console.WriteLine();
+            wishList.DisplayProductsInWishList();
         }
     }
 }
